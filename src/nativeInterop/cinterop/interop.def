@@ -1,0 +1,62 @@
+---
+
+#include <stddef.h>
+
+typedef struct Stack {
+    int * data; // pointer to dynamic array
+    int size; // max size of stack
+    int top; // index of top element
+} stack_type;
+
+/**
+ * write parameter value to the top element of stack and increment index of top
+ */
+void push(stack_type *stack, const int value) {
+    if (stack->top >= stack->size) {
+        exit(100);
+    }
+    stack->data[stack->top] = value;
+    stack->top++;
+}
+
+/**
+ * decrement index of top
+ * @return value of the top element of stack
+ */
+int pop(stack_type *stack) {
+    if (stack->top == 0) {
+        exit(200);
+    }
+    stack->top--;
+    return stack->data[stack->top];
+}
+
+/**
+ * create struct stack and create there dynamic array with max_size
+ * @return pointer to the created stack
+ */
+stack_type* createStack(int max_size) {
+    stack_type *stack = NULL;
+    stack = (stack_type*) malloc (sizeof(stack_type));
+    if (stack == NULL) {
+        exit(300);
+    }
+    stack->size = max_size;
+    stack->data = (int*) malloc (stack->size * sizeof(int));
+    if (stack->data == NULL) {
+        free(stack);
+        exit(300);
+    }
+    stack->top = 0;
+    return stack;
+}
+
+
+/*
+ * clear memory
+ */
+void deleteStack(stack_type *stack) {
+    free(stack->data);
+    free(stack);
+    stack = NULL;
+}
